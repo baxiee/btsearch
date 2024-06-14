@@ -9,3 +9,5 @@ src/logs/*
 *nbproject*
 *.pyc
 notes
+
+.idea

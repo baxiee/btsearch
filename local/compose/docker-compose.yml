@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  django:
+    user: 1000:1000
+    build:
+      context: $PWD
+      dockerfile: local/docker/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - $PWD/src/:/var/code
+    depends_on:
+      - db
+    networks:
+      - webnet
+    env_file:
+      - $PWD/local/envs/local/django.env
+
+  db:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: 'mysql'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'admin'
+      MYSQL_ROOT_PASSWORD: 'aqmin'
+    ports:
+      - "3305:3306"
+    networks:
+      - webnet
+
+networks:
+  webnet:

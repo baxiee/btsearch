@@ -1,4 +1,27 @@
-.PHONY: install remove_pyc update_virtualenv remove_db create_db
+SHELL=/bin/bash -euo pipefail
+
+COMPOSE_ARGS=-f ./local/compose/docker-compose.yml
+
+.PHONY: build up upbuild down clean ps shell install remove_pyc update_virtualenv remove_db create_db
+
+
+build:
+	docker-compose ${COMPOSE_ARGS} build
+
+up:
+	docker-compose ${COMPOSE_ARGS} up
+
+upbuild:
+	docker-compose ${COMPOSE_ARGS} up --build
+
+down:
+	docker-compose ${COMPOSE_ARGS} down
+
+clean:
+	docker-compose ${COMPOSE_ARGS} down --remove-orphans -v
+
+shell:
+	docker exec -it --user root compose_django_1 bash
 
 install: remove_pyc update_virtualenv remove_db create_db load_fixtures
 
